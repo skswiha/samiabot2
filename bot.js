@@ -1,9 +1,9 @@
-var twit = require('twit');
+const { TwitterApi } = require('twitter-api-v2');
 var config = require('./config.js');
 var fs = require('fs');
 var readLine = require('readline');
 
-var T = new twit(config);
+const userClient = new TwitterApi(config);
 
 tweet();
 
@@ -30,11 +30,8 @@ function tweet() {
            tweet = lyrics[Math.floor(Math.random()*lyrics.length)];
            tweet = tweet.replace(/\//g,"\n");
             console.log(tweet)
-            T.post('statuses/update', { status: tweet }, function(err,data,response){
-                if (error){
-                    console.log("Error making post.", error.message);
-                };
-            });
+            await userClient.v2.tweet(tweet);
         }
     });
 }
+
